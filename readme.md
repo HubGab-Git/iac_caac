@@ -13,7 +13,7 @@ After teraform provisioning there is configuration in ansible to install MySQL c
 ## Known issues
 On mac when using lookup() function you can encounter below error:
 
-md```
+```md
 ASK [lookup secretsmanager secret in the current region] *************************************************************************************************************************
 objc[6830]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
 objc[6830]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
@@ -22,6 +22,6 @@ objc[6830]: +[__NSCFConstantString initialize] may have been in progress in anot
 
 to solve this just export below variable:
 
-md```
+```md
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ```
