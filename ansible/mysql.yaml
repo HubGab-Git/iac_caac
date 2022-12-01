@@ -1,0 +1,32 @@
+---
+- name: Playbook for database connection
+  hosts: bastion
+  vars:
+    password: "{{ lookup('amazon.aws.aws_secret', 'db_password', aws_profile=aws_profile,region=region) }}"
+  vars_files:
+  - vars/vars.yaml
+
+  tasks:
+  
+  - name: Make sure pymysql is present
+    become: true
+    pip:
+      name: pymysql
+      state: present
+
+  - name: install mysql client
+    yum:
+      name: mariadb
+      state: present
+  
+  - name: Get MySQL version with non-default credentials
+    community.mysql.mysql_info:
+      login_user: "{{ db_user }}"
+      login_password: "{{ password }}"
+      login_host: "{{ db_host }}"
+      filter: version
+    register: mysql_version
+  
+  - debug:
+      var:
+        mysql_version
